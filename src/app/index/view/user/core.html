@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    <link rel="stylesheet" href="__index__/style/distance.css">
+    <link rel="stylesheet" href="__index__/style/core.css">
+    {include file='/index/commonFile' /}
+    <script>document.documentElement.style.fontSize = document.documentElement.clientWidth / 3.75 + 'px';</script>
+</head>
+
+<body>
+        <div class="login">
+            <div class="login_head">
+                <a href="/index/index/index"> <img src="__index__/images/return.png"></a>
+                <span>个人中心</span>
+            </div>
+        </div>
+
+        <div class="conation">
+
+            <div class="core_main Negative">
+                <span>头像</span>
+                <div>
+                    <form id="newForm" enctype="multipart/form-data">
+                        <!-- <img src="__index__/images/renl.png" >-->
+
+                        {notempty name="$res.user_img"}
+                            <img id="up_imga" onclick="getElementById('inputfilea').click()" style="cursor:pointer;max-width:100px;"
+                                 title="点击添加图片" alt="点击添加图片" src="{$res.user_img}">
+                        {else/}
+                            <img id="up_imga" onclick="getElementById('inputfilea').click()" style="cursor:pointer;max-width:100px;"
+                                 title="点击添加图片" alt="点击添加图片" src="__index__/images/renl.png">
+                        {/notempty}
+
+                        <input type="file" id="inputfilea"style="height:0;width:0;z-index: -1; position: absolute;left: 10px;top: 5px;" value="" lay-verify=""/>
+                        <input type="hidden" id="imga" name="user_img" value="">
+                        <img src="__index__/images/right.png">
+                    </form>
+                </div>
+            </div>
+
+            <div class="core_main">
+                <span>真实姓名</span>
+                <span>{$res.user_name}</span>
+            </div>
+
+            <div class="core_main">
+                <span>手机号码</span>
+                <span>{$res.user_mobile}</span>
+            </div>
+
+            <div class="core_password">
+                <a href="/index/user/modifyPar">
+                    <span>修改密码</span>
+                    <!--  </a>
+                    <a href=""> -->
+                    <img src="__index__/images/right.png">
+                </a>
+            </div>
+
+            <div class="core_edge">
+                <span>关联学生信息</span>
+                <img src="__index__/images/szj.png" alt="">
+            </div>
+            {volist name='info' id='vo'}
+            <div class="core_main">
+                <span>{$vo.children_name}</span>
+                <a href="/index/user/students/id/{$vo.children_id}/ids/{$vo.school_id}">
+                    <div>
+                        <span>查看详情</span>
+                        <img src="__index__/images/right.png">
+                    </div>
+                </a>
+            </div>
+            {/volist}
+            <!--底部升起-->
+            <!--<div class="core_Rise">
+               <a href="#">相册</a>
+               <a href="#">拍照</a>
+               <a href="#" class="cancel">取消</a>
+            </div>-->
+        </div>
+        <div class="login_footer">
+            <a href="#">退出登录</a>
+        </div>
+        <div class="package">
+            <div>
+                <span>确定退出登录吗?</span>
+                <div>
+                    <a href="#" class="olcancel">取消</a>
+                    <a href="#" id="logout">确定</a>
+                </div>
+            </div>
+        </div>
+</body>
+<script src="__index__/js/Negative.js"></script>
+<script>
+    //退出登录
+    $('#logout').click(function (){
+    
+        $.post('/index/login/quitLogin',function (xhr) {
+        	console.log(xhr);
+            //xhr = eval('(' + xhr + ')');
+            if(xhr.status == 1){
+                $('.package').hide();
+                layer.msg(xhr.msg);
+                setTimeout(function () {
+                    location.href = '/index/login/passLoginPage';
+                },1000)
+            }else{
+                layer.msg(xhr.msg);
+            }
+        },"json");
+    })
+    //响应文件添加成功事件
+    $('#inputfilea').change(function(){
+        var form_data = new FormData($("#newForm")[0]);
+        var files = $(this)[0].files[0];
+        form_data.append('file',files);
+
+        $.ajax({
+            url:'/api/Upload/formIndex',
+            type:'post',
+            data:form_data,
+            processData:false,
+            contentType:false,
+            async:false,
+            cache:false,
+            dataType:'JSON',
+            success:function(result){
+                result = eval('(' + result + ')');
+                if(result.code == 200){
+                    layer.msg('上传成功!',{time : 2000});
+                    $('#up_imga').attr("src",result.filename);
+                    $('#imga').val(result.filename);
+                    $('#up_imga').show();
+                }
+                else{
+                    layer.msg(result.msg);
+                }
+            },
+            error:function(e){
+                 layer.msg('请选择图片格式文件或图片不能大于5MB');
+                 return ;
+            }
+        });
+    });
+</script>
+</html>

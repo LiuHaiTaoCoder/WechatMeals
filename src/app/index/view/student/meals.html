@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加学生</title>
+    <link rel="stylesheet" href="__index__/style/school.css">
+    <link rel="stylesheet" href="__index__/style/distance.css">
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    {include file="/index/commonFile" /}
+    <script>document.documentElement.style.fontSize=document.documentElement.clientWidth / 3.75 + 'px';</script>
+</head>
+
+<body> 
+
+        <div class="login_head">
+           <a href="javascript:history.back(-1);"> <img src="__index__/images/return.png"></a>
+            <span>添加用餐学生</span>
+        </div>
+        <form>
+        <div class="meals_main">
+            <span>学校</span>
+            <span style="color: black;">{$sc.school_name}</span>
+            <input type="hidden" name="school_id" value="{$sc.school_id}">
+        </div>
+        <div class="meals_main top">
+                <span>年级</span>
+               <div>
+                   <div>
+                       <select name="grade_id" id="grade_id">
+                           <option value="">选择年级</option>
+                           {volist name='gr' id='go'}
+                           <option value="{$go.grade_id}">{$go.grade_name}</option>
+                           {/volist}
+                       </select>
+                       <img src="__index__/images/right.png">
+                   </div>
+               </div>
+        </div>
+
+        <div class="meals_main">
+                <span>班级</span>
+                <div>
+                   <select name="class_id" id="class_id">
+                       <option value="">请选择班级</option>
+                   </select>
+                    <img src="__index__/images/right.png">
+                </div>
+        </div>
+
+        <div class="meals_main">
+                <span>学生姓名</span>
+                <input type="text" name="children_name" value="" placeholder="请输入学生姓名">
+        </div>
+
+        <div class="meals_main">
+                <span>性别</span>
+                <div>
+                    <input type="radio" name="children_sex" value="0" title="" checked>男
+                    <input type="radio" name="children_sex" value="1" title="">女
+                </div>
+        </div>
+
+        <div class="itemX"> 
+            <textarea placeholder="用餐备注" name="remake" id="" cols="45" rows="3"></textarea>
+        </div>
+
+        <div class="login_footer">
+                <a class='Addto'>确认添加</a><!--/index/student/mealsInsert-->
+        </div>
+        </form>
+</body>
+<script src="__index__/js/Addto.js"></script>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的补缴</title>
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    <link rel="stylesheet" href="__index__/style/distance.css">
+    <link rel="stylesheet" href="__index__/style/modify.css">
+    <script>document.documentElement.style.fontSize=document.documentElement.clientWidth / 3.75 + 'px';</script>
+    {include file='/index/commonFile' /}
+</head> 
+
+<body>
+
+        <div class="login">
+                <div class="login_head">
+                        <a href="javascript:history.back(-1);"> <img src="__index__/images/return.png"></a>
+                         <span>我的补缴</span>
+                </div>
+        </div>
+        
+        <div class="conationX">
+        {volist name='res' id='vo'}
+            <div class="items">
+               <div>
+                   <span>订单号:{$vo.trade_no}</span>
+                   {switch name='$vo.payback_status'}
+                       {case value='0'}<span style="color: #E93030;">未付款</span>{/case}
+                       {case value='1'}<span style="color: #5BC770;">已付款</span>{/case}
+                       {case value='2'}<span style="color: #5BC770;">已完成</span>{/case}
+                       {default/}<span style="color: #999999;">已取消</span>
+                   {/switch}
+               </div>
+               <div>
+                   <span>{$vo.menu_name}</span>
+                   <span>总价￥{$vo.payback_money}</span>
+               </div>
+             </div>
+        <div class="hr"></div>
+         {/volist}
+
+        </div>
+
+</body>
+
+</html>

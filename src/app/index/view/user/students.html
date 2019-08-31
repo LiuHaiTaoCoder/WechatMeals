@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学生详情</title>
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    <link rel="stylesheet" href="__index__/style/distance.css">
+    <link rel="stylesheet" href="__index__/style/students.css">
+    {include file='/index/commonFile' /}
+    <script>document.documentElement.style.fontSize=document.documentElement.clientWidth / 3.75 + 'px';</script>
+</head> 
+
+<body>
+       <div class="login">
+                <div class="login_head">
+                        <a href="javascript:history.back(-1);"> <img src="__index__/images/return.png"></a>
+                        <span>学生详情</span>
+                        <a class="storage">保存</a>
+                </div>
+       </div>
+        <div class="conation">
+            <form>
+                <div class="core_main">
+                    <span>学生姓名</span>
+                    <input type="text" name="children_name" value="{$res.children_name}" class="name" placeholder="请输入学生姓名">
+                </div>
+                <div class="core_main">
+                    <span>性别</span>
+                    <div>
+                        <input type="radio" name="children_sex" value="0" title="" {eq name="$res.children_sex" value="0"} checked {/eq}>男
+                        <input type="radio" name="children_sex" value="1" title="" {eq name="$res.children_sex" value="1"} checked {/eq}>女
+                    </div>
+                </div>
+                <div class="core_main">
+                    <span>学校</span>
+                    <div>
+                        <div>
+                            <select name="school_id" id="school_id">
+                                <option value="{$res.school_id}" selected>{$res.school_name}</option>
+                                {volist name='sc' id='vo'}
+                                <option value="{$vo.school_id}">{$vo.school_name}</option>
+                                {/volist}
+                            </select>
+                            <img src="__index__/images/right.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="core_main top">
+                    <span>年级</span>
+                    <div>
+                        <div>
+                            <select name="grade_id" id="grade_id">
+                                <option value="{$res.grade_id}" selected>{$res.grade_name}</option>
+                            </select>
+                            <img src="__index__/images/right.png">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="core_main">
+                    <span>班级</span>
+                    <div>
+                        <select name="class_id" id="class_id">
+                            <option value="{$res.class_id}" selected>{$res.class_name}</option>
+
+                        </select>
+                        <img src="__index__/images/right.png">
+                    </div>
+                </div>
+
+                <div class="itemX">
+                    <textarea placeholder="用餐备注" name="remake" id="" cols="45" rows="3">{$res.remake}</textarea>
+                </div>
+                <input type="hidden" name="children_id" value="{$res.children_id}">
+            </form>
+
+
+        </div>
+
+
+
+        <div class="login_footer">
+                <a href="#">解绑</a>
+        </div>
+        <div class="package">
+                <div>
+                     <span>确定解绑该学生吗?</span>
+                     <div>
+                         <a href="#" class="olcancel">取消</a>
+                         <a class="clear">解绑</a>
+                     </div>
+                </div>
+         </div>
+
+
+         <div class="Preservation">
+                <div>
+                     <span>您要保存刚刚的修改吗?</span>
+                     <div>
+                         <a href="#" class="personcancel">取消</a>
+                         <a class="save">保存</a>
+                     </div>
+                </div>
+         </div>
+
+</body>
+<script src="__index__/js/students.js"></script>
+</html>

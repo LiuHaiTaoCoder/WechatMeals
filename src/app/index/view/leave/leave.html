@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>发起请假</title>
+        <link rel="stylesheet" href="__index__/style/initial.css">
+        <link rel="stylesheet" href="__index__/style/distance.css">
+        <link rel="stylesheet" href="__index__/style/school.css">
+        <script src="__index__/js/layDate-v5.0.9/laydate/laydate.js"></script>
+        {include file="/index/commonFile" /}
+        <script>document.documentElement.style.fontSize = document.documentElement.clientWidth / 3.75 + 'px';</script>
+        <script>
+                laydate.render({
+                        elem: '.time1'
+                        ,min: 0
+                        ,max: '{$info.end_date}'
+                });
+                laydate.render({
+                        elem: '.time2'
+                        ,min: 1
+                        ,max: '{$info.end_date}'
+                        ,done : function (value) {
+
+                    }
+                });
+        </script>
+</head>
+<body>
+        <div class="login_head">
+                <a href="javascript:history.back(-1);"> <img src="__index__/images/return.png"></a>
+                <span>发起请假</span>
+            <input type="hidden" class="id" value="{$Request.param.id}">
+        </div>
+
+        <form>
+        <div class="conationY">
+
+                <div class="leav_main">
+                        <span>开始日期</span>
+                        <input type="text" class="time1" name="start_date" placeholder="请选择开始日期">
+                </div>
+
+                <div class="leav_main">
+                        <span>结束日期</span>
+                        <input type="text" class="time2" name="end_date" placeholder="请选择结束日期">
+                </div>
+                <div class="itemX">
+                        <textarea class="title" cols="40" rows="3" placeholder="请假原因"></textarea>
+                </div>
+                <div>
+                        <span>请假说明：如果有特殊情况需要请假暂停配送,订餐期间会扣除请假的餐费,并于学期末将未配送的餐费
+                                统一退还致原账户。
+                        </span>
+                </div>
+
+        </div>
+
+        <div class="login_footer">
+                <a class="sub">提交</a>
+        </div>
+        </form>
+</body>
+<script type='text/javascript'>
+    $('.sub').click(function () {
+        var start  =  $('.time1').val();
+        var end =  $('.time2').val();
+        var content =  $('.title').val();
+        var id = $('.id').val();
+        if(!start){
+            layer.msg('请选择开始日期');
+            return false;
+        }else if(!end){
+            layer.msg('请选择结束日期');
+            return false;
+        }else if(!content){
+            layer.msg('请填写原因');
+            return false;
+        }else if(end < start){
+            layer.msg('结束日期不能小于开始日期');
+            return ;
+        }
+        var url = '/index/leave/leaveInsert';
+        $.post(url,{
+                'start_date' : start,
+                'end_date' : end,
+                'leave_title' : content,
+                'children_id' : id,
+            }, function (xhr){
+                xhr = eval('(' + xhr + ')');
+                if(xhr.status == 1){
+                    layer.msg(xhr.msg, {icon:1,time: 1000});
+                    setTimeout(function () {
+                        location.href='/index/index/index'
+                    },1000)
+                }else if(xhr.status == 2){
+                    layer.msg(xhr.msg,{time:2000});
+                    return false;
+                }else if(xhr.status == 3){
+                    layer.msg(xhr.msg,{time:2000});
+                    return false;
+                }else if(xhr.status == 4){
+                    layer.msg(xhr.msg,{time:2000});
+                    return false;
+                }else{
+                    layer.msg(xhr.msg,{time:2000});
+                    return false;
+                }
+            }
+        );
+    })
+
+</script>
+</html>

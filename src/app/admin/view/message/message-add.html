@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    {include file='/index/adminfile' /}
+</head>
+
+<body>
+<div class="x-body layui-anim layui-anim-up" style="margin-top: 20px; ">
+
+        <div class="layui-form-item">
+            <label for="imga" class="layui-form-label">
+                <span class="x-red">*</span>缩略图
+            </label>
+            <div class="layui-input-inline">
+                <form class="layui-form" id="newForm" enctype="multipart/form-data">
+                <!--没有图片显示默认图片-->
+                <input type="file" id="inputfilea" style="height:0;width:0;z-index: -1; position: absolute;left: 10px;top: 5px;" value=""/>
+                <input type="hidden" id="imga" name="message_img" value="">
+                <img id="up_imga" onclick="getElementById('inputfilea').click()" style="cursor:pointer;max-width:200px;" title="点击添加图片" alt="点击添加图片" src="__admin__/images/addimg.png">
+                </form>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="intro" class="layui-form-label">
+                内容
+            </label>
+            <div class="layui-input-inline">
+                <textarea  rows="5" cols="60" name="message_content" id="intro" lay-verify="required" autocomplete="off" class="layui-textarea" ></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label  class="layui-form-label">
+            </label>
+            <button  class="layui-btn" id="new_sub"  lay-filter="add" lay-submit="">
+                提交
+            </button>
+        </div>
+</div>
+<script>
+    layui.use(['layer','form'],function () {
+        $ = layui.jquery;
+        var form = layui.form;
+        var layer = layui.layer;
+
+        form.on('submit(add)',function(){
+            var img =  $('#up_imga').attr('src');
+            var content =  $('#intro').val();
+            if(!content){
+                layer.msg('内容不能为空',{icon:2});
+                return false;
+            }
+            if(!img){
+                layer.msg('缩略图不能为空',{icon:2});
+                return false;
+            }
+            var url = '/admin/message/messageInsert';
+            $.get(url,{
+                'message_content' : content,
+                'message_img' : img
+                }, function (xhr){
+                    if(xhr){
+                        layer.msg('已添加!', {icon:1,time: 2000});
+                        xadmin.close();
+                        xadmin.father_reload();
+                    }else{
+                        layer.msg('增加失败!',{icon:2,time:2000});
+                        return false;
+                    }
+                }
+            )
+        });
+        return false;
+    });
+    //响应文件添加成功事件
+    $('#inputfilea').change(function(){
+        var form_data = new FormData($("#newForm")[0]);
+        var files = $(this)[0].files[0];
+        form_data.append('file',files);
+
+        $.ajax({
+            url:'/api/Upload/form',
+            type:'post',
+            data:form_data,
+            processData:false,
+            contentType:false,
+            async:false,
+            cache:false,
+            dataType:'JSON',
+            success:function(result){
+                result = eval('(' + result + ')');
+                if(result.code == 200){
+                    layer.msg('成功!',{time : 2000});
+                    $('#up_imga').attr("src",result.filename);
+                    $('#imga').val(result.filename);
+                    $('#up_imga').show();
+                }
+                else{
+                    layer.msg(result.msg);
+                }
+            },
+            error:function(){
+                alert('错误!');
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>

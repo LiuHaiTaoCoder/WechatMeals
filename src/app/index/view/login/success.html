@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册成功</title>
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    <script>document.documentElement.style.fontSize=document.documentElement.clientWidth / 3.75 + 'px';</script>
+</head>
+<style>
+    html, body {
+        width: 100%;
+        height: 100%;
+    }
+    .success{
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .success > div{
+        position: relative;
+        margin-top: -0.5rem;
+    }
+    .success img:first-child{
+        height: 0.8rem;
+    }
+    .success img:last-child{
+        height: 0.4rem;
+        position: absolute;
+        top: 0.24rem;
+        left: 0.15rem;
+    }
+   .success_bottom{
+       position: fixed;
+       left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+   }
+   .success_bottom span{
+       margin-top: 1.2rem;
+   }
+   .success_bottom span a{
+        color: #5BC770;
+   }
+</style>
+<body>
+    <div class="success">
+       <div>
+            <img src="__index__/images/yuan.png">
+            <img src="__index__/images/duis.png">
+       </div>
+    </div>
+    <div class="success_bottom">
+        <span>注册成功!去<a href="/index/login/passLoginPage">登录</a></span>
+    </div>
+</body>
+
+</html>

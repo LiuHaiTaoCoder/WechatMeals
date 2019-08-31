@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="__index__/style/Login.css">
+    <link rel="stylesheet" href="__index__/style/distance.css">
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    {include file="/index/commonFile" /}
+    <script>document.documentElement.style.fontSize=document.documentElement.clientWidth / 3.75 + 'px';</script>
+</head>
+  
+<body>
+
+        <div class="login">
+                <div class="login_head">
+                        <span>登录</span>
+                </div>
+        </div>
+        
+        <form>
+        <div class="login_main">
+
+                <div class="login_one">
+                        <label>手机号</label>
+                        <input class="left" type="text" name="user_mobile" placeholder="请输入您的手机号">
+                </div>
+                <div class="login_one">              
+                        <label>登录密码</label>
+                        <input type="password" name="user_pwd" placeholder="请输入登录密码">
+                </div>
+
+            <div class="login_yzm">
+                <span><a href="/index/login/codeLoginPage/">验证码登录</a></span>
+                <span><a href="/index/login/forgetPar">找回密码</a></span>
+            </div>
+
+        </div>
+
+        <div class="login_footer">
+            <span><a href="/index/login/register">还没有账号,去注册</a></span>
+            <a class="sub">登录</a>
+        </div>
+        </form>
+</body>
+<script>
+
+
+    //提交注册
+    $('.sub').click(function (data){
+
+        var user_mobile = $('input[name=user_mobile]').val();
+        var user_pwd = $('input[name=user_pwd]').val();
+
+        if(!user_mobile){
+            layer.msg('请先输入手机号',{time : 1000});
+            $('input[name=user_mobile]').focus();
+            return ;
+        }else if(!user_pwd) {
+            layer.msg('密码不能为空', {time: 1000});
+            $('input[name=user_pwd]').focus();
+            return;
+        }
+
+        $.ajax({
+            url : '/index/login/passLogin',
+            data : {
+                'user_mobile' : user_mobile,
+                'user_pwd' : user_pwd
+            },
+            dateType : 'JSON'
+            ,type : 'post'
+            ,ccache : false
+            ,success : function (result){
+                result = eval('(' + result + ')');
+                if(result.status == 1){
+                    layer.msg(result.msg);
+                    setTimeout(function(){
+                            location.href='/index/index/index'
+                        },1000
+                    )
+                }else if(result.status == 2){
+                    layer.msg(result.msg);
+                    $('form')[0].reset();
+                    $('input[name=user_mobile]').focus();
+                    return ;
+                }else if(result.status == 3){
+                    layer.msg(result.msg);
+                    $('form')[0].reset();
+                    $('input[name=user_mobile]').focus();
+                    return ;
+                }else{
+                    layer.msg(result.msg);
+                    $('form')[0].reset();
+                    $('input[name=user_mobile]').focus();
+                    return ;
+                }
+            },error : function (e){
+                layer.msg('ajax出错请重试!');
+                return ;
+            }
+        })
+
+    })
+
+</script>
+
+</html>

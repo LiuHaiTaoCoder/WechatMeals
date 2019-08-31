@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="__index__/style/personal.css">
+    <script>
+     document.documentElement.style.fontSize = document.documentElement.clientWidth / 3.75 + 'px';
+    </script>
+    {include file='/index/commonFile' /}
+</head>
+<body>
+   <div class="containbox">
+   <div class="top_bg">
+      <div class="servebox">
+            <a href="/index/index/ContactTheCustomerService/">
+         <img src="__index__/images/service.png" alt="">
+      </a>
+      </div>
+      <div class="contain">
+         <div>
+            <img  class="headbox" src="{$user.user_img ? $user.user_img : '__index__/images/touxiang.png'}" alt="">
+         </div>
+         
+         <h1>欢迎您，{$user.user_name}！</h1>
+         <div class="personbox">
+               <a href="/index/user/personal">
+                     <span>个人中心</span>
+               </a>
+            <img class="than"  src="__index__/images/xioayu.png" alt="">
+         </div>
+      </div>
+   </div>
+   <div class="bgmidd"></div>
+   <div class="ordernave">
+        <div class="navbox">
+           <div class="navelist">
+               {foreach name='result' item='vo' key='k'}
+                 <span class="nav {if condition='($k == 0)'} act  {else/} {/if}">{$vo.children_name}</span>
+               {/foreach}
+           </div>
+           <div class="add"><a href="/index/student/region"><img src="__index__/images/tianjia.png" alt=""></a></div>
+        </div>
+
+       {foreach name='result' item='vo' key='k'}
+        <div class="action {if condition='($k == 0)'} active  {else/} {/if}">
+           <div class="action_list">
+              <div class="actionbox">
+                 <a href="/index/meals/meals/id/{$vo.children_id}">
+                     <img src="__index__/images/order01.png" >
+                     <h1>我要订餐</h1>
+                 </a>
+              </div>
+              <div class="actionbox">
+                  <a href="/index/order/myrefund/id/{$vo.children_id}">
+                        <img src="__index__/images/order04.png" alt="">
+                        <h1>我的退款</h1>
+                  </a>
+               </div>
+           </div>
+           <div class="action_list">
+               <div class="actionbox">
+                   <a href="/index/order/myOrder/id/{$vo.children_id}">
+                        <img src="__index__/images/order02.png" alt="">
+                        <h1>我的订单</h1>
+                   </a>
+                  </div>
+                  <div class="actionbox">
+                     <a href="/index/leave/myLeave/id/{$vo.children_id}">
+                           <img src="__index__/images/order05.png" alt="">
+                           <h1>我的请假</h1>
+                     </a>
+                   </div>
+           </div>
+           <div class="action_list">
+               <div class="actionbox">
+                    <a href="/index/order/payBack/id/{$vo.children_id}">
+                        <img src="__index__/images/order03.png" alt="">
+                         <h1>补缴记录</h1>
+                    </a>
+                  </div>
+                  <div class="actionbox">
+                      <a href="/index/message/feedBack">
+                           <img src="__index__/images/order06.png" alt="">
+                           <h1>意见反馈</h1>
+                      </a>
+                   </div>
+           </div>
+        </div>
+       {/foreach}
+   </div>
+</div>
+<script src="__index__/js/personal.js"></script>
+</body>
+</html>

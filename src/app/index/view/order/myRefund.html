@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的退款</title>
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    <link rel="stylesheet" href="__index__/style/distance.css">
+    <link rel="stylesheet" href="__index__/style/modify.css">
+    <link rel="stylesheet" href="__index__/style/myRefund.css">
+    {include file='/index/commonFile' /}
+    <script>document.documentElement.style.fontSize=document.documentElement.clientWidth / 3.75 + 'px';</script>
+</head>
+
+<body>
+
+        <div class="login">
+                <div class="login_head">
+                        <a href="javascript:history.back(-1);"> <img src="__index__/images/return.png"></a>
+                        <span>我的退款</span>
+                        <a class="myrefund">申请退款</a>
+                </div>
+            <input type="hidden" name="id" class="id" value="{$Request.param.id}">
+        </div>
+
+       <div class="refund">
+        {volist name='res' id='vo'}
+			<div class="refund_item">
+				<span>余额退款</span>
+				{if condition='($vo.refund_status==2)' }
+				<span>： +{$vo.refund_money}</span>
+				{/if}
+				<span>
+                        {switch name='$vo.refund_status'}
+                        {case value='1'}退款中{/case}
+                        {case value='2'}退款成功{/case}
+                        {default/}审核中
+                        {/switch}
+                 </span>
+				<p>{$vo.create_time|date="Y-m-d H:i:s",###}</p>
+			</div>
+        {/volist}
+        {volist name='leres' id='so'}
+			<div class="refund_item">
+				<span>请假停餐退款</span>
+					{if condition='($so.leave_status==2)' }
+				<span>:	+{$so.refund_money}</span>
+				{/if}
+				<span>
+                        {switch name='$so.leave_status'}
+                        {case value='1'}审核中{/case}
+                        {case value='2'}退款成功{/case}
+                        {default/}审核中
+                        {/switch}
+                 </span>
+                <p>{$so.create_time}</p>
+			</div>			
+        {/volist}
+       
+       </div>
+
+</body>
+<script>
+    $('.myrefund').on('click',function () {
+        var id = $('.id').val();
+        $.ajax({
+            url : '/index/order/isOrder/id/'+id,
+            data : {},
+            type : 'post',
+            ccache : false,
+            success : function (xhr) {
+                if(xhr.status == 1){
+                    location.href='/index/order/refund/id/'+id;
+                }else{
+                    layer.msg('暂未获取到订单');
+                    return ;
+                }
+            }
+        })
+    })
+</script>
+</html>

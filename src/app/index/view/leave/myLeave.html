@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,minimal-ui:ios">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的请假</title>
+    <link rel="stylesheet" href="__index__/style/initial.css">
+    <link rel="stylesheet" href="__index__/style/distance.css">
+    <link rel="stylesheet" href="__index__/style/modify.css">
+    {include file='/index/commonFile' /}
+    <script>document.documentElement.style.fontSize=document.documentElement.clientWidth / 3.75 + 'px';</script>
+</head>
+
+<body>
+        <div class="login">
+                <div class="login_head">
+                        <a href="javascript:history.back(-1);"> <img src="__index__/images/return.png"></a>
+                         <span>我的请假</span>
+                         <a class="leave">去请假</a>
+                </div>
+            <input type="hidden" class="id" value="{$Request.param.id}">
+        </div>
+        
+        <div class="conationY">
+            {volist name='res' id='vo'}
+                <div>
+                    <span>请假时间: <span style="font-size: .12rem;">{$vo.start_date}日~{$vo.end_date}日</span></span>
+                    <span>请{$vo.leave_day}天</span>
+                    <span>
+                        {switch name='$vo.leave_status'}
+                        {case value='1'}正在审核{/case}
+                        {case value='2'}退款成功{/case}
+                        {/switch}
+                    </span>
+                </div>
+            {/volist}
+        </div>
+</body>
+<script>
+    $('.leave').on('click',function () {
+        var id = $('.id').val();
+        $.ajax({
+            url : '/index/leave/isTime',
+            data : {},
+            type : 'post',
+            ccache : false,
+            success : function (xhr) {
+                if(xhr.status == 1){
+                    location.href='/index/leave/leave/id/'+id;
+                }else{
+                    layer.msg('当前不是请假时间');
+                    return ;
+                }
+            }
+        })
+    })
+</script>
+</html>
